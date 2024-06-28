@@ -44,14 +44,14 @@ public class ItemUI : MonoBehaviour
         roomItem.InitItemUI(name, owner, stake.ToString("N0"), gameCount.ToString("N0"));
     }
 
-    public void InitializeGameUiItem(int turn, int rouletteNum, string hasPlayed, string owner, string player, string winner)
+    public void InitializeGameUiItem(int turn, string roomName, int rouletteNum, string hasPlayed, string owner, string player, string winner)
     {
         GameObject newGameUiItem = Instantiate(GameUiPrefab, GameUiContent.transform);
         gameUiItemList.Add(newGameUiItem);
 
         GameUiItem gameUiItem = newGameUiItem.GetComponent<GameUiItem>();
 
-        gameUiItem.InitItemUI(turn.ToString("N0"), rouletteNum.ToString("N0"), hasPlayed, owner, player, winner);
+        gameUiItem.InitItemUI(turn.ToString("N0"), roomName, rouletteNum.ToString("N0"), hasPlayed, owner, player, winner);
     }
 
     public void InitializeNullGameUiItem()

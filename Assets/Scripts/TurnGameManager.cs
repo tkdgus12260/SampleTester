@@ -13,9 +13,12 @@ public class TurnGameManager : MonoBehaviour
 
     private int currentUserIndex = 0;
     private int roundCount = 1;
+    private int turnCount = 0;
 
     [SerializeField]
     private Text roundText;
+    [SerializeField]
+    private Text turnText;
 
     [Header("판돈 증가량 Float 입력 ex) 1.5 = 0.5배 증가")]
     [SerializeField]
@@ -63,6 +66,9 @@ public class TurnGameManager : MonoBehaviour
     {
         if (userOrder.Count <= 1) return;
 
+        turnCount++;
+        UpdateTurnUI();
+
         if (currentUserIndex >= userOrder.Count)
         {
             currentUserIndex = 0;
@@ -88,7 +94,7 @@ public class TurnGameManager : MonoBehaviour
             {
                 Debug.Log($"{ownerName} 방주인이 {userName} 입니다.");
                 currentUserIndex++;
-                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, moveSteps, "X", ownerName, userName, "");
+                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "X", ownerName, userName, "");
                 return;
             }
 
@@ -96,34 +102,41 @@ public class TurnGameManager : MonoBehaviour
 
             if (battleResult == 0)
             {
-                users[ownerName].Cash += room.Stake;
                 if (user.Cash <= room.Stake)
                 {
+
+                    users[ownerName].Cash += user.Cash;
                     user.Cash = 0;
                     userOrder.Remove(user.Name);
                 }
                 else
+                {
                     user.Cash -= room.Stake;
+                    users[ownerName].Cash += room.Stake;
+                }
 
                 currentUserIndex++;
-                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, moveSteps, "O", ownerName, userName, ownerName);
+                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", ownerName, userName, ownerName);
                 Debug.Log($"{ownerName} (방장) 이 {userName} 을(를) 이겼습니다.");
             }
             else
             {
-                user.Cash += room.Stake;
                 if (users[ownerName].Cash <= room.Stake)
                 {
+                    user.Cash += users[ownerName].Cash;
                     users[ownerName].Cash = 0;
                     userOrder.Remove(users[ownerName].Name);
                 }
                 else
+                {
+                    user.Cash += room.Stake;
                     users[ownerName].Cash -= room.Stake;
+                }
 
                 room.Owner = userName;
 
                 currentUserIndex++;
-                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, moveSteps, "O", ownerName, userName, userName);
+                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", ownerName, userName, userName);
                 Debug.Log($"{ownerName} (방장) 이 {userName} 에게 졌습니다.");
             }
 
@@ -133,7 +146,7 @@ public class TurnGameManager : MonoBehaviour
         {
             room.Owner = userName;
             currentUserIndex++;
-            GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, moveSteps, "O", "", userName, "");
+            GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", "", userName, "");
             Debug.Log($"{userName} 이 {newRoomName} 방의 새로운 방장이 되었습니다.");
         }
     }
@@ -151,11 +164,18 @@ public class TurnGameManager : MonoBehaviour
         roundText.text = $"라운드 : {roundCount}";
     }
 
+    public void UpdateTurnUI()
+    {
+        turnText.text = $"턴 : {turnCount}";
+    }
+
     public void ResetGame()
     {
         currentUserIndex = 0;
         roundCount = 1;
+        turnCount = 0;
         UpdateRoundUI();
+        UpdateTurnUI();
         GameManager.Instance.ItemUI.AllDestoryItemObject();
         GameManager.Instance.RoomManager.ResetRoomInfo();
         GameManager.Instance.UserManager.ResetUserInfo();
