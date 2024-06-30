@@ -114,7 +114,10 @@ public class TurnGameManager : MonoBehaviour
                     user.Cash -= room.Stake;
                     users[ownerName].Cash += room.Stake;
                 }
+                room.GameCnt++;
 
+                user.GameCnt++;
+                users[ownerName].GameCnt++;
                 currentUserIndex++;
                 GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", ownerName, userName, ownerName);
                 Debug.Log($"{ownerName} (방장) 이 {userName} 을(를) 이겼습니다.");
@@ -132,9 +135,11 @@ public class TurnGameManager : MonoBehaviour
                     user.Cash += room.Stake;
                     users[ownerName].Cash -= room.Stake;
                 }
-
                 room.Owner = userName;
+                room.GameCnt++;
 
+                user.GameCnt++;
+                users[ownerName].GameCnt++;
                 currentUserIndex++;
                 GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", ownerName, userName, userName);
                 Debug.Log($"{ownerName} (방장) 이 {userName} 에게 졌습니다.");

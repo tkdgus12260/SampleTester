@@ -56,6 +56,13 @@ public class GameManager : MonoBehaviour
 
         Screen.SetResolution(setWidth, setHeight, true);
     }
-
+    public void QuitApplication()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
 
