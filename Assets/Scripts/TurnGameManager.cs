@@ -130,6 +130,10 @@ public class TurnGameManager : MonoBehaviour
                 {
                     user.Cash -= room.Stake;
                     users[ownerName].Cash += room.Stake;
+                    if(user.Cash == 0)
+                    {
+                        userOrder.Remove(user.Name);
+                    }
                 }
                 room.GameCnt++;
 
@@ -151,6 +155,10 @@ public class TurnGameManager : MonoBehaviour
                 {
                     user.Cash += room.Stake;
                     users[ownerName].Cash -= room.Stake;
+                    if (users[ownerName].Cash == 0)
+                    {
+                        userOrder.Remove(user.Name);
+                    }
                 }
                 room.Owner = userName;
                 room.GameCnt++;
@@ -183,7 +191,7 @@ public class TurnGameManager : MonoBehaviour
 
     public void UpdateRoundUI()
     {
-        roundText.text = $"라운드 : {roundCount}";
+        roundText.text = $"싸이클 : {roundCount}";
     }
 
     public void UpdateTurnUI()
