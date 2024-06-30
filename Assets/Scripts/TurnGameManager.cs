@@ -54,7 +54,10 @@ public class TurnGameManager : MonoBehaviour
 
         foreach (var roomName in roomOrder)
         {
-            if (usersCopy.Count <= 0) break;
+            if (usersCopy.Count <= 0)
+            {
+                usersCopy = userOrder.ToList();
+            }
 
             int num = Random.Range(0, usersCopy.Count);
             string randomUserName = usersCopy[num];
