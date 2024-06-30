@@ -190,6 +190,13 @@ public class TurnGameManager : MonoBehaviour
             MoveUsersAndBattle();
         }
     }
+    public void Turn20Skipped()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            MoveUsersAndBattle();
+        }
+    }
 
     public void UpdateRoundUI()
     {
