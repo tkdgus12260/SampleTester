@@ -129,11 +129,12 @@ public class TurnGameManager : MonoBehaviour
                 else
                 {
                     user.Cash -= room.Stake;
-                    users[ownerName].Cash += room.Stake;
                     if(user.Cash == 0)
                     {
                         userOrder.Remove(user.Name);
                     }
+
+                    users[ownerName].Cash += room.Stake;
                 }
                 room.GameCnt++;
 
@@ -153,12 +154,13 @@ public class TurnGameManager : MonoBehaviour
                 }
                 else
                 {
-                    user.Cash += room.Stake;
                     users[ownerName].Cash -= room.Stake;
                     if (users[ownerName].Cash == 0)
                     {
                         userOrder.Remove(user.Name);
                     }
+
+                    user.Cash += room.Stake;
                 }
                 room.Owner = userName;
                 room.GameCnt++;
