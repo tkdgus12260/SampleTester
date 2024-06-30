@@ -24,14 +24,14 @@ public class ItemUI : MonoBehaviour
     private List<GameObject> roomItemList = new List<GameObject>();
     private List<GameObject> gameUiItemList = new List<GameObject>();
 
-    public void InitializeUserItem(string name, int cash, int gameCount)
+    public void InitializeUserItem(string name, int cash, int gameCount, int currentRoom)
     {
         GameObject newUserItem = Instantiate(userPrefab, UserContent.transform);
         userItemList.Add(newUserItem);
 
         UserItem userItem = newUserItem.GetComponent<UserItem>();
 
-        userItem.InitItemUI(name, cash.ToString("N0"), gameCount.ToString("N0"));
+        userItem.InitItemUI(name, cash.ToString("N0"), gameCount.ToString("N0"), currentRoom.ToString("N0"));
     }
 
     public void InitializeRoomItem(string name,string owner, int stake, int gameCount)

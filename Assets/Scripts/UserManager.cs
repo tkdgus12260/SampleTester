@@ -38,8 +38,8 @@ public class UserManager : MonoBehaviour
                     Debug.Log("같은 이름의 유저가 이미 있습니다.");
                     return;
                 }
-                UserInfo user = new UserInfo(userNameIF.text, num, 0, string.Empty);
-                GameManager.Instance.ItemUI.InitializeUserItem(user.Name, user.Cash, 0);
+                UserInfo user = new UserInfo(userNameIF.text, num, 0, 0);
+                GameManager.Instance.ItemUI.InitializeUserItem(user.Name, user.Cash, 0, 0);
                 user.PropertyChanged += UpdateUserItemUI;
                 Users.Add(user.Name, user);
                 UserOrder.Add(user.Name);
@@ -61,7 +61,7 @@ public class UserManager : MonoBehaviour
             UserItem userItem = child.GetComponent<UserItem>();
             if (userItem != null && userItem.UserText.text == userInfo.Name)
             {
-                userItem.InitItemUI(userInfo.Name, userInfo.Cash.ToString("N0"), userInfo.GameCnt.ToString("N0"));
+                userItem.InitItemUI(userInfo.Name, userInfo.Cash.ToString("N0"), userInfo.GameCnt.ToString("N0"), userInfo.CurrentRoom.ToString("N0"));
                 break;
             }
         }
@@ -112,8 +112,9 @@ public class UserInfo
             PropertyChanged?.Invoke(this);
         }
     }
-    private string currentRoom;
-    public string CurrentRoom
+    private int currentRoom;
+
+    public int CurrentRoom
     {
         get { return currentRoom; }
         set
@@ -123,7 +124,7 @@ public class UserInfo
         }
     }
 
-    public UserInfo(string name, int cash, int gameCnt, string currentRoom)
+    public UserInfo(string name, int cash, int gameCnt, int currentRoom)
     {
         Name = name;
         Cash = cash;

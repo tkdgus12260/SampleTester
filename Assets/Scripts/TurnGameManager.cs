@@ -88,10 +88,21 @@ public class TurnGameManager : MonoBehaviour
         UserInfo user = users[userName];
 
         int moveSteps = Random.Range(1, roomOrder.Count + 1);
-        int newRoomIndex = (userOrder.IndexOf(userName) + moveSteps) % roomOrder.Count;
-        string newRoomName = roomOrder[newRoomIndex];
+        int currentRoomIndex = user.CurrentRoom;
+
+        currentRoomIndex = (currentRoomIndex + moveSteps - 1) % roomOrder.Count;
+        user.CurrentRoom = currentRoomIndex + 1;
+        Debug.Log("@@@@@@@@@@@@  1  : " + currentRoomIndex);
+        //else
+        //{
+        //    currentRoomIndex = (currentRoomIndex + moveSteps) % roomOrder.Count;
+        //    user.CurrentRoom = currentRoomIndex;
+        //}
+
+        string newRoomName = roomOrder[currentRoomIndex];
         RoomInfo room = rooms[newRoomName];
 
+        Debug.Log("@@@@@@@@@@@@  2  : " + currentRoomIndex);
         if (room.Owner != string.Empty)
         {
             string ownerName = room.Owner;
@@ -157,7 +168,7 @@ public class TurnGameManager : MonoBehaviour
         {
             room.Owner = userName;
             currentUserIndex++;
-            GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "O", "", userName, "");
+            GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "X", "", userName, "");
             Debug.Log($"{userName} 이 {newRoomName} 방의 새로운 방장이 되었습니다.");
         }
     }
