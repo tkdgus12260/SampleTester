@@ -19,6 +19,12 @@ public class TurnGameManager : MonoBehaviour
     private Text roundText;
     [SerializeField]
     private Text turnText;
+    [SerializeField]
+    private InputField userNameIF;
+    [SerializeField]
+    private InputField roomNameIF;
+    [SerializeField]
+    private InputField valueIF;
 
     [Header("판돈 증가량 Float 입력 ex) 1.5 = 0.5배 증가")]
     [SerializeField]
@@ -196,6 +202,28 @@ public class TurnGameManager : MonoBehaviour
         else
         {
             raseText.text = "판돈 배율을 소수로 입력해주세요.";
+        }
+    }
+
+    public void ChangeInfoValue()
+    {
+        if (userNameIF.text != string.Empty && valueIF.text != string.Empty)
+        {
+            users[userNameIF.text].Cash = int.Parse(valueIF.text);
+        }
+        else
+        {
+            Debug.Log("유저 이름과 값을 입력해주세요.");
+        }
+
+
+        if (roomNameIF.text != string.Empty && valueIF.text != string.Empty)
+        {
+            rooms[roomNameIF.text].Stake = int.Parse(valueIF.text);
+        }
+        else
+        {
+            Debug.Log("방 이름과 값을 입력해주세요.");
         }
     }
 }
