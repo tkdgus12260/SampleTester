@@ -128,6 +128,7 @@ public class TurnGameManager : MonoBehaviour
                     users[ownerName].Cash += user.Cash;
                     user.Cash = 0;
                     userOrder.Remove(user.Name);
+                    CheckAndRemoveOwner(user.Name);
                 }
                 else
                 {
@@ -135,6 +136,7 @@ public class TurnGameManager : MonoBehaviour
                     if(user.Cash == 0)
                     {
                         userOrder.Remove(user.Name);
+                        CheckAndRemoveOwner(user.Name);
                     }
 
                     users[ownerName].Cash += room.Stake;
@@ -154,13 +156,15 @@ public class TurnGameManager : MonoBehaviour
                     user.Cash += users[ownerName].Cash;
                     users[ownerName].Cash = 0;
                     userOrder.Remove(users[ownerName].Name);
+                    CheckAndRemoveOwner(users[ownerName].Name);
                 }
                 else
                 {
                     users[ownerName].Cash -= room.Stake;
                     if (users[ownerName].Cash == 0)
                     {
-                        userOrder.Remove(user.Name);
+                        userOrder.Remove(users[ownerName].Name);
+                        CheckAndRemoveOwner(users[ownerName].Name);
                     }
 
                     user.Cash += room.Stake;
@@ -183,6 +187,25 @@ public class TurnGameManager : MonoBehaviour
             currentUserIndex++;
             GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "X", "", userName, "");
             Debug.Log($"{userName} 이 {newRoomName} 방의 새로운 방장이 되었습니다.");
+        }
+    }
+    private void CheckAndRemoveOwner(string userName)
+    {
+        foreach (var room in rooms)
+        {
+            if (room.Value.Owner == userName)
+            {
+                foreach(string user in userOrder)
+                {
+                    if (userOrder.Count > 0)
+                    {
+                        int randomIndex = Random.Range(0, userOrder.Count);
+                        string newOwner = userOrder[randomIndex];
+                        room.Value.Owner = newOwner;
+                        Debug.Log($"방 {room.Key}의 새로운 주인은 {newOwner} 입니다.");
+                    }
+                }
+            }
         }
     }
 
