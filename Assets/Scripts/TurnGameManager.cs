@@ -113,8 +113,9 @@ public class TurnGameManager : MonoBehaviour
             if (user.Name == ownerName)
             {
                 Debug.Log($"{ownerName} 방주인이 {userName} 입니다.");
-                currentUserIndex++;
-                GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "X", ownerName, userName, "");
+                //currentUserIndex++;
+                //GameManager.Instance.ItemUI.InitializeGameUiItem(currentUserIndex, newRoomName, moveSteps, "X", ownerName, userName, "");
+                MoveUsersAndBattle();
                 return;
             }
 
