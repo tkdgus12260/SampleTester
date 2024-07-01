@@ -185,20 +185,14 @@ public class TurnGameManager : MonoBehaviour
     }
     private void CheckAndRemoveOwner(string userName)
     {
-        foreach (var room in rooms)
+        foreach (KeyValuePair<string, RoomInfo> room in rooms)
         {
             if (room.Value.Owner == userName)
             {
-                foreach(string user in userOrder)
-                {
-                    if (userOrder.Count > 0)
-                    {
-                        int randomIndex = Random.Range(0, userOrder.Count);
-                        string newOwner = userOrder[randomIndex];
-                        room.Value.Owner = newOwner;
-                        Debug.Log($"방 {room.Key}의 새로운 주인은 {newOwner} 입니다.");
-                    }
-                }
+                int randomIndex = Random.Range(0, userOrder.Count);
+                string newOwner = userOrder[randomIndex];
+                room.Value.Owner = newOwner;
+                Debug.Log($"방 {room.Key}의 새로운 주인은 {newOwner} 입니다.");
             }
         }
     }
