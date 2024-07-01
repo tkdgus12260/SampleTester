@@ -95,17 +95,10 @@ public class TurnGameManager : MonoBehaviour
 
         currentRoomIndex = (currentRoomIndex + moveSteps - 1) % roomOrder.Count;
         user.CurrentRoom = currentRoomIndex + 1;
-        Debug.Log("@@@@@@@@@@@@  1  : " + currentRoomIndex);
-        //else
-        //{
-        //    currentRoomIndex = (currentRoomIndex + moveSteps) % roomOrder.Count;
-        //    user.CurrentRoom = currentRoomIndex;
-        //}
 
         string newRoomName = roomOrder[currentRoomIndex];
         RoomInfo room = rooms[newRoomName];
 
-        Debug.Log("@@@@@@@@@@@@  2  : " + currentRoomIndex);
         if (room.Owner != string.Empty)
         {
             string ownerName = room.Owner;
